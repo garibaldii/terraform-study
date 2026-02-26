@@ -9,11 +9,6 @@ variable "ingress_rules" {
   default = [80, 443]
 }
 
-variable "egress_rules" {
-  type    = list(number)
-  default = [80, 443]
-}
-
 resource "aws_instance" "web" {
   ami                    = "ami-0f3caa1cf4417e51b"
   instance_type          = "t3.micro"
@@ -48,6 +43,7 @@ resource "aws_security_group" "web_traffic" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
 }
 
 output "PublicIP" {
