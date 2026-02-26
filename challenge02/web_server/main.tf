@@ -9,6 +9,10 @@ variable "ingress_rules" {
   default = [80, 443]
 }
 
+variable "egress_rules" {
+  type    = list(number)
+  default = [80, 443]
+}
 
 resource "aws_instance" "web" {
   ami                    = "ami-0f3caa1cf4417e51b"
@@ -33,9 +37,16 @@ resource "aws_security_group" "web_traffic" {
     content {
       from_port   = port.value
       to_port     = port.value
-      protocol    = "TCP"
+      protocol    = "tcp"
       cidr_blocks = ["0.0.0.0/0"]
     }
+  }
+
+  egress {
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
